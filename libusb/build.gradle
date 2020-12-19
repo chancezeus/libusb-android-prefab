@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+        }
+    }
+
+    buildFeatures {
+        prefabPublishing true
+    }
+
+    prefab {
+        "usb1.0" {
+            headers "src/main/cpp/include"
+        }
+    }
+
+    packagingOptions {
+        exclude("**/libusb1.0.so")
+        exclude("**/libc++_shared.so")
+    }
+}
